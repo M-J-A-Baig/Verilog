@@ -1,0 +1,26 @@
+Code:
+
+• Design Module
+
+module gate(out,x);
+input x;
+output out;
+assign out=~x;
+endmodule
+
+
+• TestBench
+
+module test;
+reg a;
+wire c;
+gate x(c,a);
+initial
+begin
+a=1'b0;
+#20
+a=1'b1;
+#20
+$finish;
+end
+endmodule

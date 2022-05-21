@@ -1,0 +1,19 @@
+Code:
+
+
+• Design Module
+
+module Baig;
+reg clk;
+initial clk=0;
+always
+begin
+#30
+clk=~clk;
+#10
+clk=~clk;
+end
+initial
+#40
+$finish;
+endmodule

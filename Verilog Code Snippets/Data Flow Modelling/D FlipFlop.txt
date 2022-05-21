@@ -1,0 +1,35 @@
+Code:
+
+• Design Module
+
+module dff(q,qb,d,clk);
+input d,clk;
+output q,qb;
+wire a,b,dbar;
+assign dbar=~d;
+assign a=~(d&clk);
+assign b=~(dbar&clk);
+assign q=~(a&qb);
+assign qb=~(b&q);
+endmodule
+
+
+• TestBench
+
+module Baig;
+reg d,clk;
+wire q,qb;
+dff dffff(q,qb,d,clk);
+initial
+begin
+d=1'b0;clk=1'b0;
+#20
+d=1'b0;clk=1'b1;
+#20
+d=1'b1;clk=1'b0;
+#20
+d=1'b1;clk=1'b1;
+#20
+$finish;
+end
+endmodule

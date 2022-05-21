@@ -1,0 +1,31 @@
+Code:
+
+• Design Module
+
+modules r(q,qb,r,s);
+input r,s;
+output q,qb;
+nand n1(q,r,qb);
+nand n2(qb,s,q);
+endmodule
+
+
+• TestBench
+
+module tb;
+reg r,s;
+wire q,qb;
+srrsl(q,qb,r,s);
+initial
+begin
+r=1'b0;s=1'b0;
+#30
+r=1'b0;s=1'b1;
+#30
+r=1'b1;s=1'b0;
+#30
+r=1'b1;s=1'b1;
+#30
+$finish;
+end
+endmodule

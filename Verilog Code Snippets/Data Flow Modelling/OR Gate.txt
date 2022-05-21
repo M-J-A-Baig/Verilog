@@ -1,0 +1,30 @@
+Code:                        
+
+• Design Module
+
+module gate(z,x,y);
+input x,y;
+output z;
+assign z=x|y;
+endmodule
+
+
+• TestBench
+
+module Baig;
+reg x,y;
+wire z;
+gate g1(z,x,y);
+initial
+begin
+x=1'b0;y=1'b0;
+#20
+x=1'b0;y=1'b1;
+#20
+x=1'b1;y=1'b0;
+#20
+x=1'b1;y=1'b1;
+#20
+$finish;
+end
+endmodule

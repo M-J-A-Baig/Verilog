@@ -1,0 +1,65 @@
+Code:
+
+• Design Module
+
+module mux(out,s0,s1,s2,i0,i1,i2,i3,i4,i5,i6,i7);
+input s0,s1,s2,i0,i1,i2,i3,i4,i5,i6,i7;
+output out;
+wire s0n,s1n,s2n,a,b,c,d,e,f,g,h;
+not n1(s0n,s0);
+not n1(s1n,s1);
+not n1(s2n,s2);
+and a1(a,s0n,s1n,s2n,i0);
+and a2(b,s0n,s1n,s2,i1);
+and a3(c,s0n,s1,s2n,i2);
+and a4(d,s0n,s1,s2,i3);
+and a5(e,s0,s1n,s2n,i4);
+and a6(f,s0,s1n,s2,i5);
+and a7(g,s0,s1,s2n,i6);
+and a8(h,s0,s1,s2,i7);
+or o1(out,a,b,c,d,e,f,g,h);
+endmodule
+
+• TestBench
+
+module Baig;
+reg s0,s1,s2,i0,i1,i2,i3,i4,i5,i6,i7;
+wire out;
+mux m1(out,s0,s1,s2,i0,i1,i2,i3,i4,i5,i6,i7);
+initial
+begin
+s0=1'b0;s1=1'b0;s2=1'b0;i0=1'b0;i1=1'b0;i2=1'b0;i3=1'b0;i4=1'b0;i5=1'b0;i6=1'b0;i7=1'b0;
+#20
+s0=1'b0;s1=1'b0;s2=1'b0;i0=1'b0;i1=1'b0;i2=1'b0;i3=1'b0;i4=1'b0;i5=1'b0;i6=1'b0;i7=1'b1;
+#20
+s0=1'b0;s1=1'b0;s2=1'b1;i0=1'b0;i1=1'b0;i2=1'b0;i3=1'b0;i4=1'b0;i5=1'b0;i6=1'b1;i7=1'b0;
+#20
+s0=1'b0;s1=1'b0;s2=1'b1;i0=1'b0;i1=1'b0;i2=1'b0;i3=1'b0;i4=1'b0;i5=1'b0;i6=1'b1;i7=1'b1;
+#20
+s0=1'b0;s1=1'b1;s2=1'b0;i0=1'b0;i1=1'b0;i2=1'b0;i3=1'b0;i4=1'b0;i5=1'b1;i6=1'b0;i7=1'b0;
+#20
+s0=1'b0;s1=1'b1;s2=1'b0;i0=1'b0;i1=1'b0;i2=1'b0;i3=1'b0;i4=1'b0;i5=1'b1;i6=1'b0;i7=1'b1;
+#20
+s0=1'b0;s1=1'b1;s2=1'b1;i0=1'b0;i1=1'b0;i2=1'b0;i3=1'b0;i4=1'b0;i5=1'b1;i6=1'b1;i7=1'b0;
+#20
+s0=1'b0;s1=1'b1;s2=1'b1;i0=1'b0;i1=1'b0;i2=1'b0;i3=1'b0;i4=1'b0;i5=1'b1;i6=1'b1;i7=1'b1;
+#20
+s0=1'b1;s1=1'b0;s2=1'b0;i0=1'b0;i1=1'b0;i2=1'b0;i3=1'b0;i4=1'b1;i5=1'b0;i6=1'b0;i7=1'b0;
+#20
+s0=1'b1;s1=1'b0;s2=1'b0;i0=1'b0;i1=1'b0;i2=1'b0;i3=1'b0;i4=1'b1;i5=1'b0;i6=1'b0;i7=1'b1;
+#20
+s0=1'b1;s1=1'b0;s2=1'b1;i0=1'b0;i1=1'b0;i2=1'b0;i3=1'b0;i4=1'b1;i5=1'b0;i6=1'b1;i7=1'b0;
+#20
+s0=1'b1;s1=1'b0;s2=1'b1;i0=1'b0;i1=1'b0;i2=1'b0;i3=1'b0;i4=1'b1;i5=1'b0;i6=1'b1;i7=1'b1;
+#20
+s0=1'b1;s1=1'b1;s2=1'b0;i0=1'b0;i1=1'b0;i2=1'b0;i3=1'b0;i4=1'b1;i5=1'b1;i6=1'b0;i7=1'b0;
+#20
+s0=1'b1;s1=1'b1;s2=1'b0;i0=1'b0;i1=1'b0;i2=1'b0;i3=1'b0;i4=1'b1;i5=1'b1;i6=1'b0;i7=1'b1;
+#20
+s0=1'b1;s1=1'b1;s2=1'b1; i0=1'b0;i1=1'b0;i2=1'b0;i3=1'b0;i4=1'b1;i5=1'b1;i6=1'b1;i7=1'b0;
+#20
+s0=1'b1;s1=1'b1;s2=1'b1;i0=1'b0;i1=1'b0;i2=1'b0;i3=1'b0;i4=1'b1;i5=1'b1;i6=1'b1;i7=1'b1;
+#20
+$finish;
+end
+endmodule

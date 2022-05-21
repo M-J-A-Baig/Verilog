@@ -1,0 +1,36 @@
+Code:
+
+
+• Design Module
+
+module norgate(out,a,b);
+input a,b;
+output out;
+wire x;
+supply1 vdd;
+supply0 gnd;
+pmos p1(x,vdd,a);
+pmos p2(out,x,b);
+nmos n1(out,gnd,a);
+nmos n2(out,gnd,b);
+endmodule
+
+• TestBench
+
+module Baig;
+reg a,b;
+wire out;
+norgate ng(out,a,b);
+initial
+begin
+a=1'b0;b=1'b0;
+#10
+a=1'b1;b=1'b0;
+#10
+a=1'b0;b=1'b1;
+#10
+a=1'b1;b=1'b1;
+#10
+$finish;
+end
+endmodule

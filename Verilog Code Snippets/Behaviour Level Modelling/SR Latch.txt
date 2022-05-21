@@ -1,0 +1,53 @@
+Code:
+
+
+• Design Module
+
+module mux(out,a,b,c,d,e,f,g,h,s0,s1,s2);
+input a,b,c,d,e,f,g,h,s0,s1,s2;
+output out;
+reg out;
+always @(a or b or c or d or e or f or g or h or s0 or s1 or s2)
+begin
+case({s0,s1,s2})
+3'b000: out=a;
+3'b001: out=b;
+3'b010: out=c;
+3'b011: out=d;
+3'b100: out=e;
+3'b101: out=f;
+3'b110: out=g;
+3'b111: out=h;
+endcase
+end
+endmodule
+
+
+
+• TestBench
+
+module Baig;
+reg a,b,c,d,e,f,g,h,s0,s1,s2;
+wire out;
+mux m(out,a,b,c,d,e,f,g,h,s0,s1,s2);
+initial
+begin
+a=1'b0;b=1'b1;c=1'b0;d=1'b1;e=1'b0;f=1'b1;g=1'b0;h=1'b1;s0=1'b0;s1=1'b0;s2=1'b0;
+#30
+s0=1'b0;s1=1'b0;s2=1'b1;
+#30
+s0=1'b0;s1=1'b1;s2=1'b0;
+#30
+s0=1'b0;s1=1'b1;s2=1'b1;
+#30
+s0=1'b1;s1=1'b0;s2=1'b0;
+#30
+s0=1'b1;s1=1'b0;s2=1'b1;
+#30
+s0=1'b1;s1=1'b1;s2=1'b0;
+#30
+s0=1'b1;s1=1'b1;s2=1'b1;
+#30
+$finish;
+end
+endmodule

@@ -1,0 +1,41 @@
+Code:
+
+• Design Module
+
+module demux(d0,d1,d2,d3,d4,d5,d6,d7,s0,s1,s2,din);
+input s0,s1,s2,din;
+output d0,d1,d2,d3,d4,d5,d6,d7;
+wire x,y,z;
+assign x=~s0;
+assign y=~s1;
+assign z=~s2;
+assign d0=(x&y&z&din);
+assign d1=(s1&x&z&din);
+assign d2=(s0&y&z&din);
+assign d3=(s0&s1&z&din);
+assign d4=(s2&x&y&din);
+assign d5=(s2&y&s0&din);
+assign d6=(s2&s1&x&din);
+assign d7=(s2&s1&s0&din);
+endmodule
+
+
+• TestBench
+
+module Baig;
+reg s0,s1,s2,din;
+wire d0,d1,d2,d3,d4,d5,d6,d7;
+demux dm(d0,d1,d2,d3,d4,d5,d6,d7,s0,s1,s2,din);
+initial
+begin
+s0=1'b0; s1=1'b0; s2=1'b0; din=1'b1; #20
+s0=1'b1; s1=1'b0; s2=1'b0; din=1'b1; #20
+s0=1'b0; s1=1'b1; s2=1'b0; din=1'b1; #20
+s0=1'b1; s1=1'b1; s2=1'b0; din=1'b1; #20
+s0=1'b0; s1=1'b0; s2=1'b1; din=1'b1; #20
+s0=1'b1; s1=1'b0; s2=1'b1; din=1'b1; #20
+s0=1'b0; s1=1'b1; s2=1'b1; din=1'b1; #20
+s0=1'b1; s1=1'b1; s2=1'b1; din=1'b1; #20
+$finish;
+end
+endmodule

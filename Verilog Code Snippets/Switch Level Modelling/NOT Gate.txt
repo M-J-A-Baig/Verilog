@@ -1,0 +1,29 @@
+Code:
+
+
+• Design Module
+
+module notgate(out,in);
+input in;
+output out;
+supply1 vdd;
+supply0 gnd;
+pmos p1(out,vdd,in);
+nmos n1(out,gnd,in);
+endmodule
+
+• TestBench
+
+module Baig;
+reg in;
+wire out;
+notgate ng(out,in);
+initial
+begin
+in=1'b0;
+#10
+in=1'b1;
+#10
+$finish;
+end
+endmodule

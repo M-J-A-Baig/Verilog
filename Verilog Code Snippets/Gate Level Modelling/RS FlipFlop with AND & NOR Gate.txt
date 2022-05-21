@@ -1,0 +1,34 @@
+Code:
+
+• Design Module
+
+modulersff(q,qb,r,s,clk);
+input r,s,clk;
+output q,qb;
+wire a,b;
+and a1(a,r,clk);
+and a2(b,s,clk);
+nor n1(q,a,qb);
+nor n2(qb,b,q);
+endmodule
+
+
+• TestBench
+
+module tb;
+reg r,s,clk;
+wire q,qb;
+rsff r1(q,qb,r,s,clk);
+initial
+begin
+r=1'b0;s=1'b0;clk=1'b0;
+#30
+r=1'b0;s=1'b1;clk=1'b1;
+#30
+r=1'b1;s=1'b0;clk=1'b0;
+#30
+r=1'b1;s=1'b1;clk=1'b1;
+#30
+$finish;
+end
+endmodule

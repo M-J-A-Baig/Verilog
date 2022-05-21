@@ -1,0 +1,33 @@
+Code:
+
+
+• Design Module
+
+module demux(d0,d1,d2,d3,s0,s1,din);
+input s0,s1,din;
+output d0,d1,d2,d3;
+wire x,y;
+assign x=~s0;
+assign y=~s1;
+assign d0=(x&y);
+assign d1=(s1&x);
+assign d2=(s0&y);
+assign d3=(s0&s1);
+endmodule
+
+
+• TestBench
+
+module Baig;
+reg s0,s1,din;
+wire d0,d1,d2,d3;
+demux dm(d0,d1,d2,d3,s0,s1,din);
+initial
+begin
+s0=1'b0; s1=1'b0; din=1'b1; #20
+s0=1'b1; s1=1'b0; din=1'b1; #20
+s0=1'b0; s1=1'b1; din=1'b1; #20
+s0=1'b1; s1=1'b1; din=1'b1; #20
+$finish;
+end
+endmodule

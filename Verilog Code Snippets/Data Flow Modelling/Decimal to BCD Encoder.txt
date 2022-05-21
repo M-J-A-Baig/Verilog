@@ -1,0 +1,36 @@
+Code:
+
+
+• Design Module
+
+module decoder(a0,a1,a2,a3,x);
+input [9:1]x;
+output a0,a1,a2,a3;
+
+assign a0=(x[1]|x[3]|x[5]|x[7]|x[9]);
+assign a1=(x[2]|x[3]|x[6]|x[7]);
+assign a2=(x[4]|x[5]|x[6]|x[7]);
+assign a3=(x[8]|x[9]);
+endmodule
+
+
+• TestBench
+
+module Baig;
+reg [9:1]x;
+wire a0,a1,a2,a3;
+decoder dc(a0,a1,a2,a3,x);
+initial
+begin
+x=9'b000000001; #20
+x=9'b000000010; #20
+x=9'b000000100; #20
+x=9'b000001000; #20
+x=9'b000010000; #20
+x=9'b000100000; #20
+x=9'b001000000; #20
+x=9'b010000000; #20
+x=9'b100000000; #20
+$finish;
+end
+endmodule

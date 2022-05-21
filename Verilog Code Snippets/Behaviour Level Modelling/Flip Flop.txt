@@ -1,0 +1,47 @@
+Code:
+
+
+• Design Module
+
+module counter(d,clk,clr,q);
+input d,clk,clr;
+output q;
+reg q;
+always @(negedge clk or posedge clr)
+begin
+if(clr)
+q=1'b0;
+else
+q=d;
+end
+endmodule
+
+
+
+• TestBench
+
+module Baig;
+reg d,clk,clr;
+wire q;
+counter c1(d,clk,clr,q);
+initial
+clk=1'b0;
+always#5
+clk=~clk;
+initial
+begin
+d=1'b0;
+clr=1'b1;
+#10
+d=1'b1;
+clr=1'b0;
+#10
+d=1'b1;
+clr=1'b1;
+#10
+d=1'b1;
+clr=1'b0;
+#10
+$finish;
+end
+endmodule

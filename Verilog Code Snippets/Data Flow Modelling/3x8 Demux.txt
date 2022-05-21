@@ -1,0 +1,42 @@
+Code:
+
+
+• Design Module
+
+module decoder(d0,d1,d2,d3,d4,d5,d6,d7,s0,s1,s2,din);
+input s0,s1,s2,din;
+output d0,d1,d2,d3,d4,d5,d6,d7;
+wire x,y,z;
+assign x=~s0;
+assign y=~s1;
+assign z=~s2;
+assign d0=(x&y&z);
+assign d1=(s1&x&z);
+assign d2=(s0&y&z);
+assign d3=(s0&s1&z);
+assign d4=(s2&x&y);
+assign d5=(s2&y&s0);
+assign d6=(s2&s1&x);
+assign d7=(s2&s1&s0);
+endmodule
+
+
+• TestBench
+
+module Baig;
+reg s0,s1,s2;
+wire d0,d1,d2,d3,d4,d5,d6,d7;
+decoder dc(d0,d1,d2,d3,d4,d5,d6,d7,s0,s1,s2);
+initial
+begin
+s0=1'b0; s1=1'b0; s2=1'b0; #20
+s0=1'b1; s1=1'b0; s2=1'b0; #20
+s0=1'b0; s1=1'b1; s2=1'b0; #20
+s0=1'b1; s1=1'b1; s2=1'b0; #20
+s0=1'b0; s1=1'b0; s2=1'b1; #20
+s0=1'b1; s1=1'b0; s2=1'b1; #20
+s0=1'b0; s1=1'b1; s2=1'b1; #20
+s0=1'b1; s1=1'b1; s2=1'b1; #20
+$finish;
+end
+endmodule

@@ -1,0 +1,34 @@
+Sum=a.b.Cin+a’.b.Cin+a.b’.Cin’
+Cout=a.b+b.Cin+a.Cin
+
+Code:
+
+• Design Module
+
+module obfa(sum,Cout,a,b,Cin);
+input a,b,Cin;
+output sum,Cout;
+assign sum=(a&b&Cin)|((~a)&b&(~Cin))|(a&(~b)&(~Cin))|((~a)&(~b)&Cin);
+assign Cout=(a&b)|(b&Cin)|(a&Cin);
+endmodule
+
+
+• TestBench
+
+module Baig;
+reg a,b,Cin;
+wire sum,Cout;
+obfa fa(sum,Cout,a,b,Cin);
+initial
+begin
+a=1'b0;b=1'b0;Cin=1'b0;
+#20
+a=1'b0;b=1'b1;Cin=1'b1;
+#20
+a=1'b1;b=1'b0;Cin=1'b1;
+#20
+a=1'b1;b=1'b1;Cin=1'b1;
+#20
+$finish;
+end
+endmodule

@@ -1,0 +1,33 @@
+Code:
+
+• Design Module
+
+module mux(out,s0,i0,i1);
+input s0,i0,i1;
+output out;
+wire s0n,a,b;
+not n1(s0n,s0);
+and a1(a,s0n,i0);
+and a2(b,s0,i1);
+or o1(out,a,b);
+endmodule
+
+• TestBench
+
+module Baig;
+reg s0,i0,i1;
+wire out;
+mux m1(out,s0,i0,i1);
+initial
+begin
+s0=1'b0;i0=1'b0;i1=1'b0;
+#20
+s0=1'b1;i0=1'b0;i1=1'b1;
+#20
+s0=1'b0;i0=1'b1;i1=1'b0;
+#20
+s0=1'b1;i0=1'b1;i1=1'b1;
+#20
+$finish;
+end
+endmodule

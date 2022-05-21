@@ -1,0 +1,37 @@
+Code:
+
+• Design Module
+
+module MSJKFF(q,qb,j,k,clr,clk);
+input j,k,clr,clk;
+output q,qb;
+wire a,b,c,x,y,z,clkb;
+assign a=~(j&clr&clk&qb);
+assign b=~(a&y);
+assign c=~(b&clkb);
+assign q=~(c&qb);
+assign x=~(clk&k&q);
+assign y=~(x&b&clr);
+assign z=~(y&clkb);
+assign qb=~(z&q&clr);
+assign clkb=~clk;
+endmodule
+
+• TestBench
+
+module Baig;
+reg j,k,clr,clk;
+wire q,qb;
+MSJKFF ff(q,qb,j,k,clk,clr);
+initial
+begin
+j=1'b0;k=1'b0;clr=1'b0;clk=1'b0;
+#30
+j=1'b0;k=1'b1;clr=1'b1;clk=1'b1;#30
+j=1'b1;k=1'b0;clk=1'b0;clr=1'b1;
+#30
+j=1'b1;k=1'b1;clr=1'b1;clk=1'b1;
+#30
+$finish;
+end
+endmodule

@@ -1,0 +1,48 @@
+Code:
+
+• Design Module
+
+//design module 1 bit
+module obfa(sum,cout,a,b,cin);
+input a,b,cin;
+output sum,cout;
+wire x,y,z;
+xor(x,a,b);
+xor(sum,x,cin);
+and a1(y,x,cin);
+and a2(z,a,b);
+or o1(cout,y,z);
+endmodule
+
+//design module 4 bit
+module fbfa(sum,cout,a,b,cin);
+input[3:0] a,b;
+input cin;
+output[3:0] sum;
+output cout;
+wire c1,c2,c3;
+obfa fa1(sum[0],c1,a[0],b[0],cin);
+obfa fa2(sum[1],c2,a[1],b[1],c1);
+obfa fa3(sum[2],c3,a[2],b[2],c2);
+obfa fa4(sum[3],cout,a[3],b[3],c3);
+endmodule
+
+• TestBench
+
+module baig;
+reg[3:0] a,b;
+reg cin;
+wire[3:0] sum;
+wire cout;
+fbfa g1(sum,cout,a,b,cin);
+initial
+begin
+a=4'h1;b=4'h2;cin=1'b0;
+#20
+a=4'hA;b=4'hB;cin=1'b1;
+#20
+a=4'h9;b=4'h6;cin=1'b1;
+#20
+$finish;
+end
+endmodule
