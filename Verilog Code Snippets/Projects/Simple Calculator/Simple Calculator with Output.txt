@@ -1,0 +1,72 @@
+Code:                        
+
+	• Design Module
+		// Code your design here
+		// Takes two numbers; perform the desired operation(+, -, x, /)
+		// 08 bits inputs
+
+		module calculator( input wire [7:0] first_num,    // first operand
+                             	   input wire [7:0] second_num,    // second operand 
+                  	 	   // 2 bits operation   00 = plus;  01 = minus; 10=mult; 11=div; 
+                  	 	   input wire [1:0] operation,
+                    	 	   output wire [15:0] result );
+
+		reg [15:0] temp_out;
+
+		always@(*)
+    			begin
+      			if(operation == 2'b0)
+        			temp_out = first_num + second_num;     // Add operation
+      			else if(operation == 2'b01)
+      				temp_out = second_num - first_num;     // sub operation
+      			else if(operation == 2'b10)
+        			temp_out = first_num * second_num;     // multiplication operation
+      			else if(operation == 2'b11)
+        			temp_out = first_num/second_num;       // divide operation
+    			end// end always block
+        
+    		assign result = temp_out;
+		
+		endmodule
+
+
+• TestBench
+
+	
+	module calc_tb();
+  	reg[7:0] num_a;
+  	reg[7:0] num_b;
+  	reg[1:0] oper;
+  	wire[15:0] res;
+ 
+ 	//instantation - telling that calc ky name sy caulator wala function  banao aur yeh values dalo
+  	calculator calc(num_a,num_b,oper,res);
+  
+  
+  	// values do
+  	initial  
+		begin
+      		#10
+     		num_a = $random;
+     		num_b = $random;
+      		#10
+      		oper = 0;
+      		#10
+      		oper = 1;
+      		#10
+      		oper = 2;
+      		#10
+      		oper = 3;
+      		#10
+      		$finish;
+   		end
+  
+        //for wave-form in eda playground
+	//   initial  begin
+	//       $dumpfile("dump.vcd");
+	//       $dumpvars();
+	//       #100
+	//  $finish;
+	// end
+  
+	endmodule    

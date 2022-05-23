@@ -1,0 +1,98 @@
+Code:                        
+
+• Design Module
+
+	// specifications : count (0-15)
+	// enable = 1----- counting start
+	// synchronous active high reset
+	//count_load == 1   1bit  
+	//load_value [3:0]   start counting from load_value
+	// Design UP counter with load
+	// Task : UP-Down counter
+	module UpDown_Counter(input wire clk,
+        	              input wire rst,
+                	      input wire enable,
+	                      input wire up_oper,           // up operation @ 1
+        	              input wire count_load,        // if count_load 1 then load_value
+                	      input wire [3:0] load_value,
+                      	      output wire [3:0] count);
+  	reg [3:0] temp_cnt;
+  
+  	always@(posedge clk , posedge rst)
+		begin
+		if(rst)
+        		temp_cnt <= 0;
+		else if(count_load)
+        		temp_cnt <= load_value;
+      		else if(enable)
+        		begin
+          		if (up_oper)
+            			begin
+            			if(temp_cnt == load_value)
+              				temp_cnt <= 0;
+            			else
+		           	   	temp_cnt <= temp_cnt + 1;
+            			end
+          		else
+            			begin
+              			if(temp_cnt == load_value)
+                 			temp_cnt <= 0;
+              			else
+                 			temp_cnt <= temp_cnt - 1;
+            			end        
+        		end
+      		else 
+        		temp_cnt <= temp_cnt;
+     		end  
+    
+      	assign count = temp_cnt;
+	endmodule
+
+
+
+• TestBench
+
+	// Code your testbench here
+	// or browse Examples
+
+	module tb();
+  	reg clk,reset,enable,up_oper,count_load;
+  	reg [3:0] load_value;
+  	wire [3:0] count;
+  
+  	UpDown_Counter dut(.clk(clk),.rst(reset),.enable(enable),.up_oper(up_oper),.count_load(count_load),.load_value(load_value),.count(count));
+  
+  	always #5 clk = ~clk; 
+
+	initial
+    		begin
+      		clk <= 0;
+      		repeat(5);
+      		reset <= 0 ;
+      		enable <= 1;
+      		#10
+      		up_oper <= 1;
+      		count_load <= 1;
+      		load_value <= 3'b100;
+      		#10
+	        count_load <= 0;
+      		#10
+      		#10
+      		#10
+      		#10
+      		up_oper <= 0;
+      		#10
+      		#10;
+    		end
+  
+	//   only for waveform in eda playground
+	//   initial 
+	//     begin 
+	//       $dumpfile("dump.vcd");
+	//       $dumpvars;
+	//       #100
+	//       $finish;
+	//     end
+  
+  
+	endmodule

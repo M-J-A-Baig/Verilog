@@ -1,0 +1,73 @@
+Code:                        
+
+• Design Module
+
+	• FlipFlop Module
+		module flipflop( input clk,
+                		 input d,
+                 		 output q_ext,
+                 		 output qbar_ext);
+  
+  		reg q,qbar;
+  
+  		always@(clk)
+    			begin
+      			q <= d ;
+      			qbar <= ~d;
+    			end
+
+		assign q_ext = q;
+  		assign qbar_ext = qbar;
+  
+		endmodule
+	
+	• Main Module
+		// Code your design here
+		`include"flipflop.sv"
+	
+		module shift_register(input clk,
+                		      input d,
+                      		      output out,
+                      		      output out_bar);
+ 
+ 		reg f1_q,f1_qbar;
+  		reg f2_q,f2_qbar;
+  		reg f3_q,f3_qbar;
+  		reg f4_q,f4_qbar;
+  
+  		flipflop f1(clk,d,f1_q,f1_qbar);
+  		flipflop f2(clk,f1_q,f2_q,f2_qbar);
+  		flipflop f3(clk,f2_q,f3_q,f3_qbar);
+  		flipflop f4(clk,f3_q,f4_q,f4_qbar);
+  
+  		assign out = f4_q;
+     		assign out_bar = f4_qbar;
+
+		endmodule
+
+
+
+• TestBench
+
+	// Code your testbench here
+	// or browse Examples
+
+	module tb();
+  	bit clk,d;
+  	wire out,out_bar;
+  
+  	shift_register dut(clk,d,out,out_bar);
+  
+  	always #5 clk = ~clk;
+  	always #5 d = ~d;
+  
+	//   for eda playground waveform
+	//   initial
+	//     begin 	
+	//       $dumpfile("dump.vcd");
+	//       $dumpvars();
+	//       #500
+	//       $finish;
+	//     end
+  
+	endmodule

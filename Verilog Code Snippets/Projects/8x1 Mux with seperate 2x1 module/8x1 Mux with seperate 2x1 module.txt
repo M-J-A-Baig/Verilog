@@ -1,0 +1,108 @@
+Code:                        
+
+• Design Module
+       •2x1 Module
+
+		// Code your design here
+		// mux 2x1
+
+		module Mux_2x1(input wire in1,      // ports
+         		       input wire in2,
+               	 	       input wire sel,
+               		       output reg out);
+  
+  			       wire out_val;          //temp singal - internal wire
+  
+  		assign out_val = (sel)? in2:in1;     // mux logic
+  
+  		always@(*)         //sensitivity list for record change at change of specified signal
+    		begin
+      			out <= out_val ;   // tieing temp output signal (internal wire to output register)
+    		end
+  
+		endmodule
+
+
+
+       •Main Design Module
+		// Code your design here
+		// mux 8x1
+
+		`include"Mux_2x1.sv"  
+
+		module Mux_8x1(input in1,
+               	               input in2,
+                               input in3,
+               	               input in4,
+               	               input in5,
+                               input in6,
+                               input in7,
+                               input in8,
+                               input sel_a,
+                               input sel_b,
+                               input sel_c,
+                	       output out);  //ports
+
+	      wire temp_1,temp_2,temp_3,temp_4,temp_5,temp_6;//internal wires
+
+  
+              Mux_2x1 mux1(in1,in2,sel_c,temp_1);
+              Mux_2x1 mux2(in3,in4,sel_c,temp_2);
+              Mux_2x1 mux3(in5,in6,sel_c,temp_3);
+              Mux_2x1 mux4(in7,in8,sel_c,temp_4);
+      
+              Mux_2x1 mux5(temp_1,temp_2,sel_b,temp_5);
+              Mux_2x1 mux6(temp_3,temp_4,sel_b,temp_6);
+      
+              Mux_2x1 mux7(temp_5,temp_6,sel_a,out); 
+
+              endmodule
+
+• TestBench
+
+	// Code your testbench here
+	// or browse Examples
+
+	module tb();
+   
+  	reg input_1,input_2,input_3,input_4,input_5,input_6,input_7,input_8;
+  	reg select_a,select_b,select_c;
+  	wire result;
+  
+	//   Mux_8x1 tb_1(input_1),.in2(input_2),.in3(input_3),.in4(input_4),.in5(input_5),.in6(input_6),
+	// 			   .in7(input_7).in8(input_8),.sel_a(select_a),.sel_b(select_b),.sel_c(select_c),
+	//                .out(result));
+  
+  	Mux_8x1 tb_1(input_1,input_2,input_3,input_4,input_5,input_6,input_7,input_8,select_a,select_b,select_c,result);
+  	initial
+    	begin
+      	   input_1 = $random;
+      	   input_2 = $random;
+      	   input_3 = $random;
+      	   input_4 = $random;
+           input_5 = $random;
+           input_6 = $random;
+      	   input_7 = $random;
+      	   input_8 = $random;
+      	   #10
+      	   select_a = 1'b0;select_b = 1'b0;select_c = 1'b0;
+           #10
+  	   select_a = 1'b0;select_b = 1'b0;select_c = 1'b1;
+      	   #10
+      	   select_a = 1'b0;select_b = 1'b1;select_c = 1'b0;
+      	   #10
+      	   select_a = 1'b1;select_b = 1'b0;select_c = 1'b0;
+      	   #10
+      	   select_a = 1'b1;select_b = 1'b0;select_c = 1'b1;
+    	end
+  
+	// only for waveforms on eda playground  
+	//   initial
+	//     begin	
+	//       $dumpfile("dump.vcd");
+	//       $dumpvars();
+	//       #60
+	//       $finish;
+	//     end
+  
+	endmodule

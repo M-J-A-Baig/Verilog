@@ -1,0 +1,218 @@
+Code:                        
+
+• Design Module
+	• parameter Module
+      		`define Bus_Length 16
+
+	• ALU Module
+		// Code your design here
+		// Takes two numbers; perform the desired operation(+, -, x, /)
+		`include"parameter.sv"
+
+		module calculator(input reset,                            //ports
+	  			  input [(`Bus_Length) -1:0] first_num,    // first operand
+        		          input [(`Bus_Length) -1:0] second_num,    // second operand 
+                		  // 2 bits operation   00 = plus;  01 = minus; 10=mult; 11=div; 
+                  		  input  [1:0] operation,
+                  	  	output [((`Bus_Length)*2) -1:0] result);
+  
+ 		//internal regs
+  		reg [((`Bus_Length)*2) -1:0] temp_out;
+
+		// logic
+  		always@(*)
+    			begin
+      			if(reset)
+        			begin
+          				temp_out <= 0;
+        			end
+      			else
+        			begin
+           			if(operation == 2'b0)
+               				temp_out = first_num + second_num;     // Add operation
+           			else if(operation == 2'b01)
+               				temp_out = second_num - first_num;     // sub operation
+           			else if(operation == 2'b10)
+               				temp_out = first_num * second_num;     // multiplication operation
+           			else if(operation == 2'b11)
+               				temp_out = first_num/second_num;       // divide operation
+           			end
+      				end// end always block
+
+		// reg to wire
+    		assign result = temp_out;
+  
+		endmodule
+
+	• reg Module
+		// Code your design here
+
+		`include"parameter.sv"
+
+		module reg_file(input clk,                     //ports
+                		input regwrite,                   // operation
+            			input [$clog2(`Bus_Length) -1 :0] writereg,
+             			input [$clog2(`Bus_Length) -1 :0] readreg1,
+             			input [$clog2(`Bus_Length) -1 :0] readreg2,
+             			input [(`Bus_Length) -1 :0] data,
+             			output [(`Bus_Length) -1 :0] read1,
+             			output[(`Bus_Length) -1 : 0] read2);
+  
+		//internal regs
+  		reg [(`Bus_Length) -1 :0] out1;
+  		reg [(`Bus_Length) -1 :0] out2;
+  		reg [(`Bus_Length) -1 :0] reg_device [(`Bus_Length) : 0 ]; // internal memory
+
+  
+		//logic
+  		always@(posedge clk)
+    			begin                            // value @ pose & neg edge both
+      			out1 <= reg_device[readreg1];
+      			out2 <= reg_device[readreg2];
+    			end          
+  		always@(negedge clk)
+    			begin
+      			out1 <= reg_device[readreg1];
+      			out2 <= reg_device[readreg2];
+      			if(regwrite)
+        			begin
+          			reg_device [writereg ] <= data;
+          			end
+      			end
+     
+  		//reg to wire
+  		assign read1 = out1;
+  		assign read2 = out2;
+
+		endmodule
+
+	• Design Module
+
+		// Code your design here
+		// Takes two numbers; perform the desired operation(+, -, x, /)
+
+		`include"parameter.sv"
+		`include"reg_file.sv"
+		`include"ALU.sv"
+
+		module Processor( //regfile ports
+        	         	 input clk,                     //ports
+                	  	 input regwrite,                   // memory operation
+                        	 input [$clog2(`Bus_Length) -1 :0] writereg,
+             		         input [$clog2(`Bus_Length) -1 :0] readreg1,
+             		         input [$clog2(`Bus_Length) -1 :0] readreg2,
+              	        	 input [(`Bus_Length) -1 :0] data,      //input data
+
+	              	         //alu ports 
+        	   	         input reset,
+                	   	 input [(`Bus_Length) -1:0] first_num,    // first operand
+                  		 input [(`Bus_Length) -1:0] second_num,    // second operand 
+                  		 input  [1:0] operation,
+                        	 output [((`Bus_Length)*2) -1:0] result);
+
+		//internal regs
+  		reg [(`Bus_Length) -1 :0] read1;
+  		reg[(`Bus_Length) -1 : 0] read2;
+  		reg [((`Bus_Length)*2) -1:0] temp_out; 
+  
+
+		//module instantiations
+     		begin
+        	reg_file internal_memory(clk,regwrite,writereg,readreg1,readreg2,data,read1,read2);
+        	calculator alu(reset,read1,read2,operation,temp_out);
+  		end
+      
+  		//reg to wire
+        	assign result = temp_out;
+  
+		endmodule
+
+
+
+• TestBench
+
+	// Code your testbench here
+	// or browse Examples
+	// Code your testbench here
+	// or browse Examples
+
+	module tb();
+  
+  	bit clk;                     //ports
+  	reg regwrite;                   // memory operation
+  	reg [$clog2(`Bus_Length) -1 :0] writereg;
+  	reg [$clog2(`Bus_Length) -1 :0] readreg1;
+  	reg [$clog2(`Bus_Length) -1 :0] readreg2;
+  	reg [(`Bus_Length) -1 :0] data;      //input data
+
+        //alu ports 
+	bit reset;
+  	reg [(`Bus_Length) -1:0] first_num;    // first operand
+  	reg [(`Bus_Length) -1:0] second_num;    // second operand 
+  	reg  [1:0] operation;
+  	wire [((`Bus_Length)*2) -1:0] result;
+  
+  
+  
+  	//instantiations
+	Processor dut(clk,regwrite,writereg,readreg1,readreg2,data,reset,first_num,second_num,operation,result);
+  
+  	// clock 
+    	always #5 clk = ~clk;
+  
+  
+  	//initial setup ky leay
+   	initial
+      		begin 
+        	clk <= 1;
+        	reset <= 0;
+        	operation <= 0;   //addition
+        
+        	regwrite <= 1;
+        	writereg <= 32'b1001;    //data for at location x
+        	data <= 32'b1111;
+        	#5
+        	regwrite <= 1;
+        	writereg <= 32'b1010;   //data for at location y
+        	data <= 32'b1101;
+        	#5
+        
+        	#10
+        	regwrite <= 0;         //writing stopped
+        	readreg1 <= 32'b1001;    // location x
+        	readreg2 <=32'b1010;     // location y
+        	#10;
+   	   	end
+
+  
+	// asal change aur operation testing of the system
+   	initial
+      		begin 
+       		#30
+       		regwrite <= 0;            //writing stopped
+       		writereg <= 32'b010001;
+       		data <= 32'b100001;
+       		#15
+        	readreg1 <= 32'b1001;    // location x
+        	readreg2 <=32'b1010;     // location y
+        	#10
+        	operation <= 1;
+        	#10
+        	operation <= 2;
+        	#10
+        	operation <= 3;
+        	#20
+       		reset <= 1;
+	        end
+  
+  
+ 	//wave production in eda play ground
+	//    initial
+	//      begin 
+	//        $dumpfile("dump.vcd");
+	//        $dumpvars;
+	//        #150
+	//        $finish;
+	//      end
+  
+  	endmodule
