@@ -1,0 +1,354 @@
+Code:
+
+//DESIGN MODULE
+
+module comparator(Data_in_A,Data_in_B,Data_in_C,A_Greater_B_Greater_C,A_Greater_C_Greater_B,A_Greater_B_Equal_C,B_Greater_A_Greater_C,B_Greater_C_Greater_A,
+B_Greater_A_Equal_C,C_Greater_A_Greater_B,C_Greater_B_Greater_A,C_Greater_A_Equal_B,A_Equal_B_Greater_C,A_Equal_C_Greater_B,B_Equal_C_Greater_A,A_Equal_B_Equal_C);
+
+// input ports.
+    input [7:0] Data_in_A;
+    input [7:0] Data_in_B;
+    input [7:0] Data_in_C
+
+    // output ports.
+    output A_Greater_B_Greater_C;
+    output A_Greater_C_Greater_B;
+    output A_Greater_B_Equal_C;
+    output B_Greater_A_Greater_C;
+    output B_Greater_C_Greater_A;
+    output B_Greater_A_Equal_C;
+    output C_Greater_A_Greater_B;
+    output C_Greater_B_Greater_A;
+    output C_Greater_A_Equal_B;
+    output A_Equal_B_Greater_C;
+    output A_Equal_C_Greater_B;
+    output B_Equal_C_Greater_A;
+    output A_Equal_B_Equal_C;
+
+    //Internal variables
+    reg A_Greater_B_Greater_C;
+    reg A_Greater_C_Greater_B;
+    reg A_Greater_B_Equal_C;
+    reg B_Greater_A_Greater_C;
+    reg B_Greater_C_Greater_A;
+    reg B_Greater_A_Equal_C;
+    reg C_Greater_A_Greater_B;
+    reg C_Greater_B_Greater_A;
+    reg C_Greater_A_Equal_B;
+    reg A_Equal_B_Greater_C;
+    reg A_Equal_C_Greater_B;
+    reg B_Equal_C_Greater_A;
+    reg A_Equal_B_Equal_C;
+
+    //When the inputs and A or B or C are changed execute this block
+    always @(Data_in_A or Data_in_B or Data_in_C)
+    begin
+	if((Data_in_A>Data_in_B) & (Data_in_B>Data_in_C))   
+            begin
+		A_Greater_B_Greater_C=1;
+		A_Greater_C_Greater_B=0;
+		A_Greater_B_Equal_C=0;
+		B_Greater_A_Greater_C=0;
+		B_Greater_C_Greater_A=0;
+		B_Greater_A_Equal_C=0;
+		C_Greater_A_Greater_B=0;
+		C_Greater_B_Greater_A=0;
+		C_Greater_A_Equal_B=0;
+		A_Equal_B_Greater_C=0;
+		A_Equal_C_Greater_B=0;
+		B_Equal_C_Greater_A=0;
+		A_Equal_B_Equal_C=0;    
+            end
+
+        else if((Data_in_A>Data_in_C) & (Data_in_C>Data_in_B)) 
+            begin 
+		A_Greater_B_Greater_C=0;
+		A_Greater_C_Greater_B=1;
+		A_Greater_B_Equal_C=0;
+		B_Greater_A_Greater_C=0;
+		B_Greater_C_Greater_A=0;
+		B_Greater_A_Equal_C=0;
+		C_Greater_A_Greater_B=0;
+		C_Greater_B_Greater_A=0;
+		C_Greater_A_Equal_B=0;
+		A_Equal_B_Greater_C=0;
+		A_Equal_C_Greater_B=0;
+		B_Equal_C_Greater_A=0;
+		A_Equal_B_Equal_C=0;    
+            end
+
+       else if((Data_in_A>Data_in_B) & (Data_in_B == Data_in_C)) 
+            begin 
+		A_Greater_B_Greater_C=0;
+		A_Greater_C_Greater_B=0;
+		A_Greater_B_Equal_C=1;
+		B_Greater_A_Greater_C=0;
+		B_Greater_C_Greater_A=0;
+		B_Greater_A_Equal_C=0;
+		C_Greater_A_Greater_B=0;
+		C_Greater_B_Greater_A=0;
+		C_Greater_A_Equal_B=0;
+		A_Equal_B_Greater_C=0;
+		A_Equal_C_Greater_B=0;
+		B_Equal_C_Greater_A=0;
+		A_Equal_B_Equal_C=0;    
+            end
+
+      else if((Data_in_B>Data_in_A) & (Data_in_A>Data_in_C)) 
+            begin 
+		A_Greater_B_Greater_C=0;
+		A_Greater_C_Greater_B=0;
+		A_Greater_B_Equal_C=0;
+		B_Greater_A_Greater_C=1;
+		B_Greater_C_Greater_A=0;
+		B_Greater_A_Equal_C=0;
+		C_Greater_A_Greater_B=0;
+		C_Greater_B_Greater_A=0;
+		C_Greater_A_Equal_B=0;
+		A_Equal_B_Greater_C=0;
+		A_Equal_C_Greater_B=0;
+		B_Equal_C_Greater_A=0;
+		A_Equal_B_Equal_C=0;    
+            end
+
+      else if((Data_in_B>Data_in_C) & (Data_in_C>Data_in_A)) 
+            begin 
+		A_Greater_B_Greater_C=0;
+		A_Greater_C_Greater_B=0;
+		A_Greater_B_Equal_C=0;
+		B_Greater_A_Greater_C=0;
+		B_Greater_C_Greater_A=1;
+		B_Greater_A_Equal_C=0;
+		C_Greater_A_Greater_B=0;
+		C_Greater_B_Greater_A=0;
+		C_Greater_A_Equal_B=0;
+		A_Equal_B_Greater_C=0;
+		A_Equal_C_Greater_B=0;
+		B_Equal_C_Greater_A=0;
+		A_Equal_B_Equal_C=0;    
+            end
+
+      else if((Data_in_B>Data_in_A) & (Data_in_A == Data_in_C)) 
+            begin 
+		A_Greater_B_Greater_C=0;
+		A_Greater_C_Greater_B=0;
+		A_Greater_B_Equal_C=0;
+		B_Greater_A_Greater_C=0;
+		B_Greater_C_Greater_A=0;
+		B_Greater_A_Equal_C=1;
+		C_Greater_A_Greater_B=0;
+		C_Greater_B_Greater_A=0;
+		C_Greater_A_Equal_B=0;
+		A_Equal_B_Greater_C=0;
+		A_Equal_C_Greater_B=0;
+		B_Equal_C_Greater_A=0;
+		A_Equal_B_Equal_C=0;    
+            end
+
+       else if((Data_in_C>Data_in_A) & (Data_in_A>Data_in_B)) 
+            begin 
+		A_Greater_B_Greater_C=0;
+		A_Greater_C_Greater_B=0;
+		A_Greater_B_Equal_C=0;
+		B_Greater_A_Greater_C=0;
+		B_Greater_C_Greater_A=0;
+		B_Greater_A_Equal_C=0;
+		C_Greater_A_Greater_B=1;
+		C_Greater_B_Greater_A=0;
+		C_Greater_A_Equal_B=0;
+		A_Equal_B_Greater_C=0;
+		A_Equal_C_Greater_B=0;
+		B_Equal_C_Greater_A=0;
+		A_Equal_B_Equal_C=0;    
+            end
+
+       else if((Data_in_C>Data_in_B) & (Data_in_B>Data_in_A)) 
+            begin 
+		A_Greater_B_Greater_C=0;
+		A_Greater_C_Greater_B=0;
+		A_Greater_B_Equal_C=0;
+		B_Greater_A_Greater_C=0;
+		B_Greater_C_Greater_A=0;
+		B_Greater_A_Equal_C=0;
+		C_Greater_A_Greater_B=0;
+		C_Greater_B_Greater_A=1;
+		C_Greater_A_Equal_B=0;
+		A_Equal_B_Greater_C=0;
+		A_Equal_C_Greater_B=0;
+		B_Equal_C_Greater_A=0;
+		A_Equal_B_Equal_C=0;    
+            end
+
+       else if((Data_in_C>Data_in_A) & (Data_in_A == Data_in_B)) 
+            begin 
+		A_Greater_B_Greater_C=0;
+		A_Greater_C_Greater_B=0;
+		A_Greater_B_Equal_C=0;
+		B_Greater_A_Greater_C=0;
+		B_Greater_C_Greater_A=0;
+		B_Greater_A_Equal_C=0;
+		C_Greater_A_Greater_B=0;
+		C_Greater_B_Greater_A=0;
+		C_Greater_A_Equal_B=1;
+		A_Equal_B_Greater_C=0;
+		A_Equal_C_Greater_B=0;
+		B_Equal_C_Greater_A=0;
+		A_Equal_B_Equal_C=0;    
+            end
+
+      else if((Data_in_A == Data_in_B) & (Data_in_A>Data_in_C)) 
+            begin 
+		A_Greater_B_Greater_C=0;
+		A_Greater_C_Greater_B=0;
+		A_Greater_B_Equal_C=0;
+		B_Greater_A_Greater_C=0;
+		B_Greater_C_Greater_A=0;
+		B_Greater_A_Equal_C=0;
+		C_Greater_A_Greater_B=0;
+		C_Greater_B_Greater_A=0;
+		C_Greater_A_Equal_B=0;
+		A_Equal_B_Greater_C=1;
+		A_Equal_C_Greater_B=0;
+		B_Equal_C_Greater_A=0;
+		A_Equal_B_Equal_C=0;    
+            end
+
+       else if((Data_in_A == Data_in_C) & (Data_in_A>Data_in_B)) 
+            begin 
+		A_Greater_B_Greater_C=0;
+		A_Greater_C_Greater_B=0;
+		A_Greater_B_Equal_C=0;
+		B_Greater_A_Greater_C=0;
+		B_Greater_C_Greater_A=0;
+		B_Greater_A_Equal_C=0;
+		C_Greater_A_Greater_B=0;
+		C_Greater_B_Greater_A=0;
+		C_Greater_A_Equal_B=0;
+		A_Equal_B_Greater_C=0;
+		A_Equal_C_Greater_B=1;
+		B_Equal_C_Greater_A=0;
+		A_Equal_B_Equal_C=0;    
+            end
+
+       else if((Data_in_B == Data_in_C) & (Data_in_B>Data_in_A)) 
+            begin 
+		A_Greater_B_Greater_C=0;
+		A_Greater_C_Greater_B=0;
+		A_Greater_B_Equal_C=0;
+		B_Greater_A_Greater_C=0;
+		B_Greater_C_Greater_A=0;
+		B_Greater_A_Equal_C=0;
+		C_Greater_A_Greater_B=0;
+		C_Greater_B_Greater_A=0;
+		C_Greater_A_Equal_B=0;
+		A_Equal_B_Greater_C=0;
+		A_Equal_C_Greater_B=0;
+		B_Equal_C_Greater_A=1;
+		A_Equal_B_Equal_C=0;    
+            end
+
+       else    
+            begin
+		A_Greater_B_Greater_C=0;
+		A_Greater_C_Greater_B=0;
+		A_Greater_B_Equal_C=0;
+		B_Greater_A_Greater_C=0;
+		B_Greater_C_Greater_A=0;
+		B_Greater_A_Equal_C=0;
+		C_Greater_A_Greater_B=0;
+		C_Greater_B_Greater_A=0;
+		C_Greater_A_Equal_B=0;
+		A_Equal_B_Greater_C=0;
+		A_Equal_C_Greater_B=0;
+		B_Equal_C_Greater_A=0;
+		A_Equal_B_Equal_C=1;    
+            end 
+    end
+endmodule
+
+
+
+ //TestBench Module
+
+module PROJECT;
+
+    // Inputs
+    reg [7:0] Data_in_A;
+    reg [7:0] Data_in_B;
+    reg [7:0] Data_in_C;
+
+    // Outputs
+    wire A_Greater_B_Greater_C;
+    wire A_Greater_C_Greater_B;
+    wire A_Greater_B_Equal_C;
+    wire B_Greater_A_Greater_C;
+    wire B_Greater_C_Greater_A;
+    wire B_Greater_A_Equal_C;
+    wire C_Greater_A_Greater_B;
+    wire C_Greater_B_Greater_A;
+    wire C_Greater_A_Equal_B;
+    wire A_Equal_B_Greater_C;
+    wire A_Equal_C_Greater_B;
+    wire B_Equal_C_Greater_A;
+    wire A_Equal_B_Equal_C;
+
+    comparator comp(Data_in_A,Data_in_B,Data_in_C,A_Greater_B_Greater_C,A_Greater_C_Greater_B,A_Greater_B_Equal_C,B_Greater_A_Greater_C,B_Greater_C_Greater_A,
+B_Greater_A_Equal_C,C_Greater_A_Greater_B,C_Greater_B_Greater_A,C_Greater_A_Equal_B,A_Equal_B_Greater_C,A_Equal_C_Greater_B,B_Equal_C_Greater_A,A_Equal_B_Equal_C);
+
+    initial 
+    begin
+        //Apply inputs
+	Data_in_A = 8'd150;
+	Data_in_B = 8'd100;
+	Data_in_C = 8'd50;
+        #40;
+	Data_in_A = 8'd150;
+	Data_in_B = 8'd50;
+	Data_in_C = 8'd100;
+        #40;
+	Data_in_A = 8'd150;
+	Data_in_B = 8'd100;
+	Data_in_C = 8'd100;
+        #40;
+	Data_in_A = 8'd150;
+	Data_in_B = 8'd200;
+	Data_in_C = 8'd50;
+        #40;
+	Data_in_A = 8'd50;
+	Data_in_B = 8'd200;
+	Data_in_C = 8'd150;
+        #40;
+	Data_in_A = 8'd50;
+	Data_in_B = 8'd100;
+	Data_in_C = 8'd50;
+        #40;
+	Data_in_A = 8'd150;
+	Data_in_B = 8'd100;
+	Data_in_C = 8'd250;
+        #40;
+	Data_in_A = 8'd150;
+	Data_in_B = 8'd200;
+	Data_in_C = 8'd250;
+        #40;
+	Data_in_A = 8'd100;
+	Data_in_B = 8'd100;
+	Data_in_C = 8'd150;
+        #40;
+	Data_in_A = 8'd150;
+	Data_in_B = 8'd150;
+	Data_in_C = 8'd50;
+        #40;
+	Data_in_A = 8'd150;
+	Data_in_B = 8'd100;
+	Data_in_C = 8'd150;
+        #40;
+	Data_in_A = 8'd50;
+	Data_in_B = 8'd100;
+	Data_in_C = 8'd100;
+        #40;
+	Data_in_A = 8'd50;
+	Data_in_B = 8'd50;
+	Data_in_C = 8'd50;
+        #40;
+    end
+endmodule
